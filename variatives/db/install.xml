@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/variatives" VERSION="2015061700" COMMENT="XMLDB file for ZNU local variatives"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+    <TABLES>
+        <TABLE NAME="var_department" COMMENT="variatives, list of departments">
+            <FIELDS>
+                <FIELD NAME="id"                    TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="true"/>
+                <FIELD NAME="vardepartmentvisible"  TYPE="int"  LENGTH="4"   NOTNULL="true" UNSIGNED="true" SEQUENCE="false" DEFAULT="1"/>
+                <FIELD NAME="vardepartmentobsolete" TYPE="int"  LENGTH="4"   NOTNULL="true" UNSIGNED="true" SEQUENCE="false" DEFAULT="0"/>
+                <FIELD NAME="vardepartmentcode"     TYPE="char" LENGTH="32"  NOTNULL="true" SEQUENCE="false"/>
+                <FIELD NAME="vardepartmentname"     TYPE="char" LENGTH="128" NOTNULL="true" SEQUENCE="false"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+            </KEYS>
+        </TABLE>
+    
+        <TABLE NAME="var_form" COMMENT="variatives, list of learning forms">
+            <FIELDS>
+                <FIELD NAME="id"              TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true"  SEQUENCE="true"  />
+                <FIELD NAME="varformvisible"  TYPE="int"  LENGTH="4"   NOTNULL="true" UNSIGNED="true"  SEQUENCE="false" />
+                <FIELD NAME="varformobsolete" TYPE="int"  LENGTH="4"   NOTNULL="true" UNSIGNED="true"  SEQUENCE="false" />
+                <FIELD NAME="varformcode"     TYPE="char" LENGTH="32"  NOTNULL="true"                  SEQUENCE="false" />
+                <FIELD NAME="varformname"     TYPE="char" LENGTH="128" NOTNULL="true"                  SEQUENCE="false" />
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+            </KEYS>
+        </TABLE>
+    
+
+        <TABLE NAME="var_level" COMMENT="variatives, list of learning levels">
+            <FIELDS>
+                <FIELD NAME="id"               TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="true"  />
+                <FIELD NAME="varlevelvisible"  TYPE="int"  LENGTH="4"   NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varlevelobsolete" TYPE="int"  LENGTH="4"   NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varlevelcode"     TYPE="char" LENGTH="32"  NOTNULL="true"                 SEQUENCE="false" />
+                <FIELD NAME="varlevelname"     TYPE="char" LENGTH="128" NOTNULL="true"                 SEQUENCE="false" />
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+            </KEYS>
+        </TABLE>
+
+        <TABLE NAME="var_speciality" COMMENT="variatives, list of specialities">
+            <FIELDS>
+                <FIELD NAME="id"                    TYPE="int"  LENGTH="10"  NOTNULL="true"  UNSIGNED="true" SEQUENCE="true"  />
+                <FIELD NAME="varspecialityvisible"  TYPE="int"  LENGTH="4"   NOTNULL="true"  UNSIGNED="true" SEQUENCE="false"   />
+                <FIELD NAME="varspecialityobsolete" TYPE="int"  LENGTH="4"   NOTNULL="true"  UNSIGNED="true" SEQUENCE="false"   />
+                <FIELD NAME="varspecialitycode"     TYPE="char" LENGTH="32"  NOTNULL="true"  SEQUENCE="false"   />
+                <FIELD NAME="varspecialityname"     TYPE="char" LENGTH="128" NOTNULL="true"  SEQUENCE="false"   />
+                <FIELD NAME="varspecialitynotes"    TYPE="char" LENGTH="512" NOTNULL="false" SEQUENCE="false"   />
+                <FIELD NAME="varspecialityedboid"   TYPE="int"  LENGTH="10"  NOTNULL="false" UNSIGNED="true" SEQUENCE="false"   />
+                <FIELD NAME="vardepartmentid"       TYPE="int"  LENGTH="10"  NOTNULL="true"  UNSIGNED="true" SEQUENCE="false"  />
+                <FIELD NAME="varformid"             TYPE="int"  LENGTH="10"  NOTNULL="true"  UNSIGNED="true" SEQUENCE="false"  />
+                <FIELD NAME="varlevelid"            TYPE="int"  LENGTH="10"  NOTNULL="true"  UNSIGNED="true" SEQUENCE="false"  />
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="x4" TYPE="foreign" FIELDS="vardepartmentid" REFTABLE="var_department" REFFIELDS="id"/>
+                <KEY NAME="x6" TYPE="foreign" FIELDS="varformid" REFTABLE="var_form" REFFIELDS="id"/>
+                <KEY NAME="x7" TYPE="foreign" FIELDS="varlevelid" REFTABLE="var_level" REFFIELDS="id"/>
+            </KEYS>
+        </TABLE>
+
+
+        <TABLE NAME="var_group" COMMENT="variatives, student group as in dean office DB">
+            <FIELDS>
+                <FIELD NAME="id"               TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="true"  />
+                <FIELD NAME="cohortid"         TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="vargroupcode"     TYPE="char" LENGTH="32"  NOTNULL="true"                 SEQUENCE="false" />
+                <FIELD NAME="vardepartmentid"  TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="vargroupyear"     TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varspecialityid"  TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varformid"        TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varlevelid"       TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false"  />
+                <FIELD NAME="vargroupedbocode" TYPE="char" LENGTH="32"  NOTNULL="true"                 SEQUENCE="false" />
+                <FIELD NAME="vargroupnotes"    TYPE="char" LENGTH="512" NOTNULL="true"                 SEQUENCE="false" />
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="x4" TYPE="foreign" FIELDS="vardepartmentid" REFTABLE="var_department" REFFIELDS="id"/>
+                <KEY NAME="x5" TYPE="foreign" FIELDS="varspecialityid" REFTABLE="var_speciality" REFFIELDS="id"/>
+                <KEY NAME="x6" TYPE="foreign" FIELDS="varformid" REFTABLE="var_form" REFFIELDS="id"/>
+                <KEY NAME="x7" TYPE="foreign" FIELDS="varlevelid" REFTABLE="var_level" REFFIELDS="id"/>
+                <KEY NAME="x8" TYPE="foreign" FIELDS="cohortid" REFTABLE="cohort" REFFIELDS="id"/>
+            </KEYS>
+        </TABLE>
+        
+
+    
+        
+
+        <TABLE NAME="var_block" COMMENT="variatives, variative course packs">
+            <FIELDS>
+                <FIELD NAME="id"                    TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="true"  />
+                <FIELD NAME="varblockname"          TYPE="char" LENGTH="128" NOTNULL="true"                 SEQUENCE="false" />
+                <FIELD NAME="varblockminstudents"   TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varblockmaxstudents"   TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varblocktimestampfrom" TYPE="int"  LENGTH="10"  NOTNULL="true"                 SEQUENCE="false" />
+                <FIELD NAME="varblocktimestampto"   TYPE="int"  LENGTH="10"  NOTNULL="true"                 SEQUENCE="false" />
+                <FIELD NAME="vargroupyear"          TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varformid"             TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varlevelid"            TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false"  />
+                <FIELD NAME="varblockisarchive"     TYPE="int"  LENGTH="4"   NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="x6" TYPE="foreign" FIELDS="varformid" REFTABLE="var_form" REFFIELDS="id"/>
+                <KEY NAME="x7" TYPE="foreign" FIELDS="varlevelid" REFTABLE="var_level" REFFIELDS="id"/>
+            </KEYS>
+        </TABLE>
+    
+    
+        <TABLE NAME="var_blockgroup" COMMENT="variatives, number of courses to choose in block, different for each department">
+            <FIELDS>
+                <FIELD NAME="id"                      TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="true"  />
+                <FIELD NAME="varblockid"              TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="vardepartmentid"         TYPE="int"  LENGTH="10"  NOTNULL="false" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varspecialityid"         TYPE="int"  LENGTH="10"  NOTNULL="false" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varsubspecialityid"      TYPE="int"  LENGTH="10"  NOTNULL="false" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varblockgroupnumcourses" TYPE="int"  LENGTH="10"  NOTNULL="false" UNSIGNED="true" SEQUENCE="false" />
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="x1" TYPE="foreign" FIELDS="varblockid" REFTABLE="var_block" REFFIELDS="id"/>
+                <KEY NAME="x4" TYPE="foreign" FIELDS="vardepartmentid" REFTABLE="var_department" REFFIELDS="id"/>
+                <KEY NAME="x5" TYPE="foreign" FIELDS="varspecialityid" REFTABLE="var_speciality" REFFIELDS="id"/>
+            </KEYS>
+        </TABLE>
+
+
+        <TABLE NAME="var_blockcourse" COMMENT="variatives, list of courses suggested in each block">
+            <FIELDS>
+                <FIELD NAME="id"                   TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="true"  />
+                <FIELD NAME="varblockid"           TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="courseid"             TYPE="int"  LENGTH="10"  NOTNULL="false" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"  />
+                <FIELD NAME="varblockcourserating" TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false" />
+                <FIELD NAME="varblockcoursegroup"  TYPE="char" LENGTH="128" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"   />
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="x1" TYPE="foreign" FIELDS="varblockid" REFTABLE="var_block" REFFIELDS="id"/>
+                <KEY NAME="x3" TYPE="foreign" FIELDS="courseid" REFTABLE="course" REFFIELDS="id"/>
+            </KEYS>
+        </TABLE>
+        
+        
+        <TABLE NAME="var_userblockcourse" COMMENT="variatives, rating of each course assigned by each student">
+            <FIELDS>
+                <FIELD NAME="id"                       TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="true"  />
+                <FIELD NAME="varblockid"               TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="courseid"                 TYPE="int"  LENGTH="10"  NOTNULL="false" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varuserblockcourserating" TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="userid"                   TYPE="int"  LENGTH="10"  NOTNULL="false" UNSIGNED="true" SEQUENCE="false" />
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="x1" TYPE="foreign" FIELDS="varblockid" REFTABLE="var_block" REFFIELDS="id"/>
+                <KEY NAME="x2" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+                <KEY NAME="x3" TYPE="foreign" FIELDS="courseid" REFTABLE="course" REFFIELDS="id"/>
+            </KEYS>
+        </TABLE>
+                
+        <TABLE NAME="var_enroll" COMMENT="variatives, final student+course enrollment based on rating">
+            <FIELDS>
+                <FIELD NAME="id"          TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="true"  />
+                <FIELD NAME="userid"      TYPE="int"  LENGTH="10"  NOTNULL="false" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="courseid"    TYPE="int"  LENGTH="10"  NOTNULL="false" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varblockid"  TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varblockcoursegroup"  TYPE="char" LENGTH="128" NOTNULL="true" UNSIGNED="true" DEFAULT="0" SEQUENCE="false"   />
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="x1" TYPE="foreign" FIELDS="varblockid" REFTABLE="var_block" REFFIELDS="id"/>
+                <KEY NAME="x2" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+                <KEY NAME="x3" TYPE="foreign" FIELDS="courseid" REFTABLE="course" REFFIELDS="id"/>
+            </KEYS>
+        </TABLE>
+
+
+        <TABLE NAME="var_assignmentqueue" COMMENT="variatives, final student+course enrollment based on rating">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="varblockid" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+                <FIELD NAME="varassignmentqueuestatus" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" DEFAULT="undefined"/>
+                <FIELD NAME="varassignmentqueuedata" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+                <FIELD NAME="varassignmentqueueweight" TYPE="float" NOTNULL="true" SEQUENCE="false"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="x1" TYPE="foreign" FIELDS="varblockid" REFTABLE="var_block" REFFIELDS="id"/>
+            </KEYS>
+        </TABLE>
+        
+
+        <TABLE NAME="var_subspeciality" COMMENT="speciality variants, specialization">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+                <FIELD NAME="varspecialityid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+                <FIELD NAME="varsubspecialitytitle" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" DEFAULT="undefined"/>
+                <FIELD NAME="varsubspecialityurl" TYPE="char" LENGTH="1024" NOTNULL="false" SEQUENCE="false" DEFAULT="undefined"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="x1" TYPE="foreign" FIELDS="varspecialityid" REFTABLE="var_speciality" REFFIELDS="id"/>
+            </KEYS>
+        </TABLE>
+        
+
+        <TABLE NAME="var_subspecialityblock" COMMENT="variatives, subspeciality suggestions">
+            <FIELDS>
+                <FIELD NAME="id"                    TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="true"  />
+                <FIELD NAME="varsubspecialityblockname"          TYPE="char" LENGTH="128" NOTNULL="true"                 SEQUENCE="false" />
+                <FIELD NAME="varsubspecialityblockminstud"   TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varsubspecialityblockmaxstud"   TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varsubspecialityblocktimemin" TYPE="int"  LENGTH="10"  NOTNULL="true"                 SEQUENCE="false" />
+                <FIELD NAME="varsubspecialityblocktimemax"   TYPE="int"  LENGTH="10"  NOTNULL="true"                 SEQUENCE="false" />
+                <FIELD NAME="vargroupyear"          TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varformid"             TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varlevelid"            TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false"  />
+                <FIELD NAME="varsubspecialityblockisarchive"     TYPE="int"  LENGTH="4"   NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varspecialityid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+                <FIELD NAME="vardepartmentid"         TYPE="int"  LENGTH="10"  NOTNULL="false" UNSIGNED="true" SEQUENCE="false" />
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="x6"  TYPE="foreign" FIELDS="varformid" REFTABLE="var_form" REFFIELDS="id"/>
+                <KEY NAME="x7"  TYPE="foreign" FIELDS="varlevelid" REFTABLE="var_level" REFFIELDS="id"/>
+                <KEY NAME="x10" TYPE="foreign" FIELDS="varspecialityid" REFTABLE="var_speciality" REFFIELDS="id"/>
+                <KEY NAME="x11" TYPE="foreign" FIELDS="vardepartmentid" REFTABLE="var_department" REFFIELDS="id"/>
+            </KEYS>
+        </TABLE>
+    
+    
+    
+    
+        <TABLE NAME="var_usersubspecialityrating" COMMENT="variatives, rating of each subspeciality assigned by each student">
+            <FIELDS>
+                <FIELD NAME="id"                             TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="true"  />
+                <FIELD NAME="varsubspecialityblockid"                     TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varsubspecialityid"             TYPE="int"  LENGTH="10"  NOTNULL="false" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="usersubspecialityblockrating"   TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="userid"                         TYPE="int"  LENGTH="10"  NOTNULL="false" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="usersubspecialityblockdatetime" TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="x101" TYPE="foreign" FIELDS="vargroupid" REFTABLE="var_group" REFFIELDS="id"/>
+                <KEY NAME="x102" TYPE="foreign" FIELDS="varsubspecialityid" REFTABLE="var_subspeciality" REFFIELDS="id"/>
+                <KEY NAME="x103" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+            </KEYS>
+        </TABLE>
+    
+        <TABLE NAME="var_subspecialityenroll" COMMENT="variatives, final student+course enrollment based on rating">
+            <FIELDS>
+                <FIELD NAME="id"          TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="true"  />
+                <FIELD NAME="userid"      TYPE="int"  LENGTH="10"  NOTNULL="false" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varsubspecialityid"    TYPE="int"  LENGTH="10"  NOTNULL="false" UNSIGNED="true" SEQUENCE="false" />
+                <FIELD NAME="varsubspecialityblockid"  TYPE="int"  LENGTH="10"  NOTNULL="true" UNSIGNED="true" SEQUENCE="false" />
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+                <KEY NAME="x1" TYPE="foreign" FIELDS="varsubspecialityblockid" REFTABLE="varsubspecialityblockid" REFFIELDS="id"/>
+                <KEY NAME="x2" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+                <KEY NAME="x3" TYPE="foreign" FIELDS="varsubspecialityid" REFTABLE="var_subspeciality" REFFIELDS="id"/>
+            </KEYS>
+        </TABLE>
+        <!-- 
+           <TABLE NAME="variatives_department" COMMENT="variatives, list of departments">
+             <FIELDS>
+               <FIELD NAME="vardepartmentid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="true" SEQUENCE="true"  />
+               <FIELD NAME="courseid" TYPE="int" LENGTH="11" NOTNULL="true" UNSIGNED="true" SEQUENCE="false"   />
+               <FIELD NAME="ownerid" TYPE="int" LENGTH="11" NOTNULL="true" UNSIGNED="true" SEQUENCE="false"   />
+               <FIELD NAME="visible" TYPE="int" LENGTH="4" NOTNULL="true" UNSIGNED="true" SEQUENCE="false"   />
+               <FIELD NAME="name" TYPE="char" LENGTH="128" NOTNULL="true" SEQUENCE="false"   />
+               <FIELD NAME="summary" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false"   />
+               <FIELD NAME="type" TYPE="char" LENGTH="128" NOTNULL="true" SEQUENCE="false"   />
+                       <FIELD NAME="pagination" TYPE="int" LENGTH="4" NOTNULL="false" UNSIGNED="true" SEQUENCE="false"   />
+               <FIELD NAME="components" TYPE="text" LENGTH="small" NOTNULL="false" SEQUENCE="false"   />
+               <FIELD NAME="export" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"   />
+               <FIELD NAME="jsordering" TYPE="int" LENGTH="4" NOTNULL="false" UNSIGNED="true" SEQUENCE="false"   />
+               <FIELD NAME="global" TYPE="int" LENGTH="4" NOTNULL="false" UNSIGNED="true" SEQUENCE="false"   />
+               <FIELD NAME="lastexecutiontime" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="true" SEQUENCE="false" COMMENT="Time this report took to run last time it was executed, in milliseconds."  />
+               <FIELD NAME="cron" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" UNSIGNED="true" SEQUENCE="false"   COMMENT="Should we run this query on regular CRON"/>
+               <FIELD NAME="remote" TYPE="int" LENGTH="1" NOTNULL="false" DEFAULT="0" UNSIGNED="true" SEQUENCE="false"  />
+             </FIELDS>
+             <KEYS>
+               <KEY NAME="primary" TYPE="primary" FIELDS="vardepartmentid"/>
+             </KEYS>
+           </TABLE>
+        -->
+    </TABLES>
+</XMLDB>

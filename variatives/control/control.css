@@ -1,0 +1,11 @@
+
+.formel{
+    width:90%;
+}
+#dialog{
+    width:400px;
+}
+
+.ui-dialog{
+    z-index:1000;    
+}

@@ -1,0 +1,176 @@
+
+
+Запрос **********************************************
+
+SELECT f_c.courseid, c.fullname, f_c.userid, f_i.name, f_v.value, coh.name, FROM_UNIXTIME(f_c.timemodified, '%Y %D %M %h:%i:%s') AS time_ans
+FROM mdl_feedback_completed AS f_c
+
+LEFT JOIN  (SELECT `value`,item,course_id
+FROM mdl_feedback_value 
+WHERE course_id!= 1) 
+AS f_v
+ON f_c.courseid = f_v.course_id
+
+LEFT JOIN (SELECT `name`, feedback, id
+FROM mdl_feedback_item )
+AS f_i
+ON f_v.item = f_i.id
+
+LEFT JOIN (SELECT id, fullname
+FROM mdl_course )
+AS c
+ON f_c.courseid = c.id
+
+LEFT JOIN (SELECT userid, cohortid
+FROM mdl_cohort_members )
+AS coh_m
+ON f_c.userid = coh_m.userid
+
+LEFT JOIN (SELECT id, `name`
+FROM mdl_cohort )
+AS coh
+ON coh_m.cohortid = coh.id
+
+
+HAVING (time_ans)=2016
+;
+
+
+
+Запрос факультет кафедра ******************************************************************************
+
+SELECT n1.name AS departement, n2.name AS chair
+FROM mdl_course_categories AS n1, mdl_course_categories AS n2
+WHERE n1.depth=2 AND n2.depth=3 AND n2.parent=n1.id
+ORDER BY n1.name
+; 
+
+
+
+Запрос факуьтет кафедра имя_курса id_курса *******************************************************************************************
+
+SELECT n1.name AS departement, n2.name AS chair, nn.fullname AS course_name, nn.id
+FROM mdl_course_categories AS n1, mdl_course_categories AS n2, mdl_course AS nn
+WHERE n1.depth=2 AND n2.depth=3 AND n2.parent=n1.id AND nn.category=n2.id
+ORDER BY n1.name
+; 
+
+Запрос на вопрос ответ курс студент время группа*********************************************************************
+
+SELECT f_c.userid, f_c.courseid, coh.`name`,  GROUP_CONCAT( CONCAT (f_i.id, "-", f_v.value, "*", f_v.id )) AS val,  FROM_UNIXTIME(f_c.timemodified, '%Y %D %M %h:%i:%s') AS time_ans, FROM_UNIXTIME(f_c.timemodified, '%Y') AS time_year
+FROM mdl_feedback_item AS f_i, mdl_feedback_value AS f_v, mdl_feedback_completed AS f_c, mdl_cohort AS coh, mdl_cohort_members AS coh_m, mdl_feedback AS f
+
+WHERE f.id=1  AND f_i.id = f_v.item AND f_v.course_id=f_c.courseid AND coh.id = coh_m.cohortid AND coh_m.userid = f_c.userid
+
+GROUP BY f_c.userid,  f_c.courseid
+HAVING (time_year)=2016
+
+ORDER BY f_c.userid
+;
+
+
+*******************************************************************************************
+SELECT * FROM
+(SELECT f_c.userid, f_c.courseid, coh.`name`,  GROUP_CONCAT( CONCAT (f_i.id, "-", f_v.value, "*", f_v.id )) AS val,  FROM_UNIXTIME(f_c.timemodified, '%Y %D %M %h:%i:%s') AS time_ans, FROM_UNIXTIME(f_c.timemodified, '%Y') AS time_year
+FROM mdl_feedback_item AS f_i, mdl_feedback_value AS f_v, mdl_feedback_completed AS f_c, mdl_cohort AS coh, mdl_cohort_members AS coh_m, mdl_feedback AS f
+
+WHERE f.id=1  AND f_i.id = f_v.item AND f_v.course_id=f_c.courseid AND coh.id = coh_m.cohortid AND coh_m.userid = f_c.userid 
+
+GROUP BY f_c.userid,  f_c.courseid
+HAVING (time_year)=2016
+
+ORDER BY f_c.userid) AS t1
+
+JOIN
+
+(SELECT n1.name AS departement, n2.name AS chair, nn.fullname AS course_name, nn.id
+FROM mdl_course_categories AS n1, mdl_course_categories AS n2, mdl_course AS nn
+WHERE n1.depth=2 AND n2.depth=3 AND n2.parent=n1.id AND nn.category=n2.id
+ORDER BY n1.name) AS t2
+ON t1.courseid = t2.id
+;
+
+max(f_v.id) по значению f_v.item ***************************************************************
+
+SELECT f_v.item, f_v.value, f_v.id, f_v.course_id
+FROM mdl_feedback_value AS f_v
+WHERE id=(SELECT MAX(f_v2.id)
+FROM mdl_feedback_value AS f_v2
+WHERE f_v.item = f_v2.item)
+GROUP BY f_v.item
+;
+
+
+для каждого f_c. userid -->> max(f_v.id) по значению f_v.item ***************************************************************
+
+SELECT * FROM
+(SELECT f_v.item, f_v.value, f_v.id, f_v.course_id
+FROM mdl_feedback_value AS f_v
+WHERE id=(SELECT MAX(f_v2.id)
+FROM mdl_feedback_value AS f_v2
+WHERE f_v.item = f_v2.item)
+GROUP BY f_v.item) AS n1
+
+JOIN 
+( SELECT f_c.userid, f_c.courseid
+FROM  mdl_feedback_completed AS f_c
+GROUP BY f_c.userid WITH ROLLUP) AS n2
+
+ON n1.course_id = n2.courseid
+ORDER BY n2.userid
+;
+
+
+*********************************************************************************************
+
+CREATE TEMPORARY TABLE ggg
+SELECT f_c.userid,f_c.courseid, f_v.item, MAX(f_v.id) AS max_item_id
+FROM mdl_feedback_completed AS f_c, mdl_feedback_value AS f_v
+WHERE f_c.courseid=f_v.course_id
+GROUP BY f_c.userid,f_c.courseid, f_v.item
+;
+
+ALTER TABLE ggg
+ADD KEY item_k(item);
+
+SHOW CREATE TABLE ggg;
+
+DROP TEMPORARY TABLE ggg;
+
+********************************************************************************************
+
+SELECT f_c.userid, f_c.courseid, f_v.item, f_v.value, c_c1.name AS dep, c_c2.name AS kaf, c.fullname, c_h.`name`, FROM_UNIXTIME(f_c.timemodified, '%Y %D %M %h:%i:%s') AS time_ans
+FROM mdl_feedback_completed AS f_c ,mdl_feedback_item AS f_i, mdl_feedback_value AS f_v, ggg, mdl_feedback AS f,
+mdl_course AS c, mdl_course_categories AS c_c1, mdl_course_categories AS c_c2, mdl_cohort AS c_h, mdl_cohort_members AS c_m
+WHERE f.id=1 
+AND f_v.item=ggg.item 
+AND f_v.id=ggg.max_item_id 
+AND f_i.id = f_v.item 
+AND f_c.feedback=f.id
+AND f_v.course_id=f_c.courseid 
+AND c_h.id = c_m.cohortid 
+AND c_m.userid = f_c.userid 
+AND f_i.feedback=f.id
+AND c.id=f_c.courseid 
+AND c_c1.depth=2 
+AND c_c2.depth=3 
+AND c_c2.parent=c_c1.id 
+AND c.category=c_c2.id
+HAVING (time_ans)=2016
+ORDER BY f_c.courseid
+;
+
+************************************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
